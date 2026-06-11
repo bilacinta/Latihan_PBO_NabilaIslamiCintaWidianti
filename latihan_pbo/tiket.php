@@ -108,6 +108,8 @@ class DataTiket {
         $query = "SELECT * FROM tabel_tiket";
         return $this->db->query($query);
     }
+
+    
 }
 
 
