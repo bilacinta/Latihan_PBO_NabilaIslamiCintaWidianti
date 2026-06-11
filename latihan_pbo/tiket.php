@@ -3,12 +3,14 @@ require_once 'Koneksi.php';
 
 // Tahap 3: Implementasi Abstraksi (Abstraction)
 abstract class Tiket {
+    // Properti/Atribut Terenkapsulasi (protected) sesuai kolom tabel database
     protected $id_tiket;
     protected $nama_film;
     protected $jadwal_tayang;
     protected $jumlah_kursi;
     protected $hargaDasarTiket;
 
+    // Constructor untuk memetakan nilai dari kolom tabel database
     public function __construct($id, $film, $jadwal, $kursi, $hargaDasar) {
         $this->id_tiket = $id;
         $this->nama_film = $film;
@@ -17,9 +19,11 @@ abstract class Tiket {
         $this->hargaDasarTiket = $hargaDasar;
     }
 
+    // Metode Abstrak (Tanpa Isi/Body)
     abstract public function hitungTotalHarga();
     abstract public function tampilkanInfoFasilitas();
 
+    // Getter untuk membantu pemanggilan data umum pada tabel HTML
     public function getIdTiket() { return $this->id_tiket; }
     public function getNamaFilm() { return $this->nama_film; }
     public function getJadwalTayang() { return $this->jadwal_tayang; }
@@ -28,6 +32,8 @@ abstract class Tiket {
 }
 
 // Tahap 4: Implementasi Pewarisan (Inheritance)
+
+// 1. TiketRegular
 class TiketRegular extends Tiket {
     private $tipeAudio;
     private $lokasiBaris;
@@ -47,13 +53,13 @@ class TiketRegular extends Tiket {
     }
 }
 
+// 2. TiketIMAX
 class TiketIMAX extends Tiket {
     private $kacamata3dId;
     private $efekGerakFitur;
 
     public function __construct($id, $film, $jadwal, $kursi, $hargaDasar, $kacamataId, $efekGerak) {
         parent::__construct($id, $film, $jadwal, $kursi, $hargaDasar);
-        // PERBAIKAN: Menggunakan variabel parameter $kacamataId yang benar
         $this->kacamata3dId = $kacamataId ?? 'Tidak Ada';
         $this->efekGerakFitur = $efekGerak ?? 'Standar';
     }
@@ -68,6 +74,7 @@ class TiketIMAX extends Tiket {
     }
 }
 
+// 3. TiketVelvet
 class TiketVelvet extends Tiket {
     private $bantalSelimutPack;
     private $layananButler;
@@ -88,7 +95,7 @@ class TiketVelvet extends Tiket {
     }
 }
 
-// Class Manager untuk fetching data (Dependency Injection)
+// Class Manager untuk fetching database link dari luar
 class DataTiket {
     private $db;
     public function __construct($dbConnection) {
