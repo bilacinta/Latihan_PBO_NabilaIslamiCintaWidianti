@@ -31,6 +31,9 @@ abstract class Tiket {
     public function getHargaDasar() { return $this->hargaDasarTiket; }
 }
 
+
+
+
 // Tahap 4: Implementasi Pewarisan (Inheritance)
 
 // 1. TiketRegular
@@ -106,4 +109,7 @@ class DataTiket {
         return $this->db->query($query);
     }
 }
+
+
+
 ?>
